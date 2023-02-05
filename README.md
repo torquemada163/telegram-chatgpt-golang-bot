@@ -1,4 +1,9 @@
-[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/torquemada163/telegram-chatgpt-golang-bot.svg)](https://github.com/gomods/athens)
+[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/torquemada163/telegram-chatgpt-golang-bot.svg)](https://github.com/torquemada163/telegram-chatgpt-golang-bot)
+[![GitHub license](https://img.shields.io/github/license/torquemada163/telegram-chatgpt-golang-bot.svg)](https://github.com/torquemada163/telegram-chatgpt-golang-bot/blob/main/LICENSE)
+[![Github all releases](https://img.shields.io/github/downloads/torquemada163/telegram-chatgpt-golang-bot/total.svg)](https://GitHub.com/torquemada163/telegram-chatgpt-golang-bot/releases/)
+[![GitHub release](https://img.shields.io/github/release/torquemada163/telegram-chatgpt-golang-bot.svg)](https://GitHub.com/torquemada163/telegram-chatgpt-golang-bot/releases/)
+[![GitHub forks](https://badgen.net/github/forks/torquemada163/telegram-chatgpt-golang-bot/)](https://GitHub.com/torquemada163/telegram-chatgpt-golang-bot/network/)
+[![GitHub issues](https://img.shields.io/github/issues/torquemada163/telegram-chatgpt-golang-bot)](https://GitHub.com/torquemada163/telegram-chatgpt-golang-bot/issues/)
 
 # Simply Telegram bot on Golang and ChatGPT
 
@@ -16,7 +21,7 @@ c := gogpt.NewClient("YOUR_CHATGPT_TOKEN")
 ```
 3. Setup your Telegram bot token in `app.go` with your value:
 ```golang
-bot, err := tgbotapi.NewBotAPI("YOUR_TELEGRAM_TOKEN")
+bot, err := tgbotapi.NewBotAPI("YOUT_TELEGRAM_BOT_TOKEN_from_BotFather")
 ```
 4. Setup external Golang packages (run this command in cloned project folder)
 ```
