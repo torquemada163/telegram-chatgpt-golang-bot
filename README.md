@@ -15,18 +15,12 @@ This Telegram bot works on the principle of `long polling`, for real use it is b
 ## Install
 Just a few simple steps:
 1. Clone repository
-2. Setup `c` variables (your ChatGPT token) in `app.go` with your value:
-```golang
-c := gogpt.NewClient("YOUR_CHATGPT_TOKEN")
-```
-3. Setup your Telegram bot token in `app.go` with your value:
-```golang
-bot, err := tgbotapi.NewBotAPI("YOUT_TELEGRAM_BOT_TOKEN_from_BotFather")
-```
+2. Rename file `config.yaml.example` to `config.yaml` and set up your tokens (chatGPT and Telegram) in file
 4. Setup external Golang packages (run this command in cloned project folder)
 ```
 go get github.com/sashabaranov/go-gpt3
 go get github.com/go-telegram-bot-api/telegram-bot-api
+go get github.com/spf13/viper
 ```
 5. Then run with "go run" or compile the binary
 

@@ -2,12 +2,36 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strings"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	gogpt "github.com/sashabaranov/go-gpt3"
+	"github.com/spf13/viper"
 )
+
+type Config struct {
+	TelegramToken string `mapstructure:"tgToken"`
+	GptToken      string `mapstructure:"gptToken"`
+}
+
+func LoadConfig(path string) (c Config, err error) {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(path)
+
+	viper.AutomaticEnv()
+
+	err = viper.ReadInConfig()
+
+	if err != nil {
+		return
+	}
+
+	err = viper.Unmarshal(&c)
+	return
+}
 
 func sendChatGPT(c *gogpt.Client, sendText string) string {
 	ctx := context.Background()
@@ -20,8 +44,8 @@ func sendChatGPT(c *gogpt.Client, sendText string) string {
 		PresencePenalty:  0,
 	}
 
-	resp, errChat := c.CreateCompletion(ctx, req)
-	if errChat != nil {
+	resp, err := c.CreateCompletion(ctx, req)
+	if err != nil {
 		return "ChatGPT API error"
 	} else {
 		return resp.Choices[0].Text
@@ -29,11 +53,18 @@ func sendChatGPT(c *gogpt.Client, sendText string) string {
 }
 
 func main() {
+	// Reading config.yaml
+	config, err := LoadConfig(".")
+
+	if err != nil {
+		panic(fmt.Errorf("fatal error with config.yaml: %w", err))
+	}
+
 	// Chat GPT initialization
-	c := gogpt.NewClient("YOUR_CHATGPT_TOKEN")
+	chatGPT := gogpt.NewClient(config.GptToken)
 
 	// Telegram initialization
-	bot, err := tgbotapi.NewBotAPI("YOUT_TELEGRAM_BOT_TOKEN_from_BotFather")
+	bot, err := tgbotapi.NewBotAPI(config.TelegramToken)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -61,7 +92,7 @@ func main() {
 		cutText, _ := strings.CutPrefix(update.Message.Text, "/cg ")
 
 		// Send request to ChatGPT
-		update.Message.Text = sendChatGPT(c, cutText)
+		update.Message.Text = sendChatGPT(chatGPT, cutText)
 
 		// Send message to Telegram
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
