@@ -91,6 +91,13 @@ func main() {
 		// Cut text prefix '/cg '
 		cutText, _ := strings.CutPrefix(update.Message.Text, "/cg ")
 
+		// Bot is typing...
+		action := tgbotapi.NewChatAction(update.Message.Chat.ID, tgbotapi.ChatTyping)
+		_, err := bot.Send(action)
+		if err != nil {
+			log.Println("Error:", err)
+		}
+
 		// Send request to ChatGPT
 		update.Message.Text = sendChatGPT(chatGPT, cutText)
 
